@@ -1,15 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  font-family: Inter, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --bg: #fff;
+  --accent-text: #4e9590;
+  --dark-text: #000;
+  --btn-bg: linear-gradient(180deg, #e4e4e4 0%, #f7f7f7 100%);
+  --brackets: #f2cab8;
+  --gray: #bfbfbf;
+  --invalid: #bf0e0e;
+
+  --font-title-size: 3rem;
+  --font-title-weight: 700;
+
+  --font-subtitle-size: 1.5rem;
+  --font-subtitle-weight: 400;
+
+  --font-body-size: 1rem;
+  --font-body-weight: 400;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
   min-height: 100vh;
+  font-size: var(--font-body-size);
+  font-weight: var(--font-body-weight);
+  color: var(--dark-text);
+  line-height: normal;
+}
+
+h1 {
+  font-size: var(--font-title-size);
+  font-weight: var(--font-title-weight);
+}
+
+h2 {
+  font-size: var(--font-subtitle-size);
+  font-weight: var(--font-subtitle-weight);
+}
+
+button {
+  background: var(--btn-bg);
+  display: flex;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  border: 1px solid #000;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: 300ms box-shadow ease-out;
+}
+
+button:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.text-center {
+  text-align: center;
 }
