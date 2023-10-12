@@ -71,3 +71,55 @@ button:hover {
 .text-center {
   text-align: center;
 }
+
+details {
+  padding-left: 0px;
+}
+
+details summary {
+  cursor: pointer;
+  list-style-type: none;
+  padding-bottom: 3px;
+}
+
+details > * {
+  border: none;
+  line-height: 1.2;
+}
+
+main > details > summary {
+  border: none;
+}
+
+details > *:not(summary) {
+  padding-left: 18px;
+  margin-left: 4px;
+  border-left: 1px solid var(--gray);
+}
+
+details .key {
+  color: var(--accent-text);
+}
+
+.bracket {
+  color: var(--brackets);
+  border: none;
+}
+
+.isArray + details > summary {
+  color: var(--gray);
+}
+
+.isArray::after,
+.isObject::after {
+  color: var(--brackets);
+  font-weight: 700;
+}
+
+.isArray::after {
+  content: ' [';
+}
+
+.isObject::after {
+  content: ' {';
+}
