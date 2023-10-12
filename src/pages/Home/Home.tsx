@@ -7,13 +7,12 @@ interface Props {
 }
 
 function Home({ invalid = false }: Props) {
-  const { setHasFile, setJsonObject } = useJsonContext();
+  const { setFile } = useJsonContext();
 
   const fileSelect = async (files: FileList | null) => {
     if (files && files.length == 1) {
-      const content = JSON.parse((await files.item(0)?.text()) || '');
-      setHasFile(true);
-      setJsonObject(content);
+      const file = files.item(0);
+      setFile(file!);
     }
   };
 
