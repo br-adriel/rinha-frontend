@@ -24,7 +24,7 @@ const FileInput = ({ children, onFileSelected }: Props) => {
     <button onClick={onClick}>
       {children}
     </button>
-    <input type="file" ref={hiddenFileInput} className={style.fileInput} onChange={hiddenFileInputChange} />
+    <input type="file" ref={hiddenFileInput} className={style.fileInput} onChange={hiddenFileInputChange} accept=".json" />
   </>
 }
 
