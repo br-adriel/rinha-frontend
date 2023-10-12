@@ -106,8 +106,8 @@ details .key {
   border: none;
 }
 
-.isArray + details > summary {
-  color: var(--gray);
+.isIndex {
+  color: var(--gray) !important;
 }
 
 .isArray::after,

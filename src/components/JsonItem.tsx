@@ -1,37 +1,65 @@
+import clsx from 'clsx';
+
 interface Props {
   data: any;
 }
 
 function JsonItem({ data }: Props) {
-  if (typeof data === 'object') {
+  if (data === null) return <p>null</p>;
+  if (data === undefined) return <p>undefined</p>;
+
+  const dataType = typeof data;
+  if (dataType === 'object') {
     const keys = Object.keys(data);
 
     return keys.map((key) => {
-      const isArray = Array.isArray(data[key]);
-      const isObject = typeof data[key] === 'object';
+      const childData = data[key];
+      const isArray = Array.isArray(childData);
+      const isObject =
+        typeof childData === 'object' &&
+        childData !== null &&
+        childData !== undefined;
 
       if (isObject || isArray) {
         return (
           <details key={key.toString()} open>
-            <summary className={`${isArray ? 'isArray' : 'isObject'} key`}>
+            <summary
+              className={clsx('key', {
+                isArray: isArray,
+                isObject: !isArray && isObject,
+                isIndex: !Number.isNaN(Number(key)),
+              })}
+            >
               {key}:
             </summary>
-            <JsonItem data={data[key]} />
+            <JsonItem data={childData} />
             <summary className='bracket'>{isArray ? ']' : '}'}</summary>
           </details>
         );
       }
+      let stringRepresennation: string;
+      if (typeof childData == 'string') stringRepresennation = `"${childData}"`;
+      else if (childData === null) stringRepresennation = 'null';
+      else if (childData === undefined) stringRepresennation = 'undefined';
+      else stringRepresennation = childData.toString();
+
       return (
         <p key={key.toString()}>
-          <span className='key'>{key}:</span>{' '}
-          {typeof data[key] == 'string' ? '"' + data[key] + '"' : data[key]}
+          <span
+            className={clsx('key', {
+              isIndex: !Number.isNaN(Number(key)),
+            })}
+          >
+            {key}:
+          </span>{' '}
+          {stringRepresennation}
         </p>
       );
     });
-  } else {
-    if (typeof data == 'string') return <p>"{data}"</p>;
-    return <span>{data}</span>;
+  } else if (dataType === 'string') {
+    return <p>"{data}"</p>;
   }
+  return <span>{data}</span>;
 }
 
 export default JsonItem;
