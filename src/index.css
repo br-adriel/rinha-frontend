@@ -118,9 +118,17 @@ details .key {
 }
 
 .isArray::after {
+  content: ' [ ... ]';
+}
+
+details[open] > .isArray::after {
   content: ' [';
 }
 
 .isObject::after {
+  content: ' { ... }';
+}
+
+details[open] > .isObject::after {
   content: ' {';
 }
