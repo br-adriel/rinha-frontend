@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react'; // Adicionei useEffect aqui
 import { useInView } from 'react-intersection-observer';
+import Details from './Details';
 
 interface Props {
   data: any;
@@ -8,22 +8,15 @@ interface Props {
 
 function JsonItem({ data }: Props) {
   const [ref, inView] = useInView();
-  const [isVisible, setIsVisible] = useState(false);
+  const dataType = typeof data;
 
-  useEffect(() => {
-    if (inView) {
-      setIsVisible(true);
-    }
-  }, [inView]);
-
-  if (!isVisible) {
+  if (!inView) {
     return <div ref={ref}></div>;
   }
 
   if (data === null) return <p ref={ref}>null</p>;
-  if (data === undefined) return <p ref={ref}>undefined</p>;
 
-  const dataType = typeof data;
+  if (data === undefined) return <p ref={ref}>undefined</p>;
 
   if (dataType === 'object') {
     const keys = Object.keys(data);
@@ -38,21 +31,15 @@ function JsonItem({ data }: Props) {
             childData !== null &&
             childData !== undefined;
 
-          if (isObject || isArray) {
+          if (isObject) {
             return (
-              <details key={key.toString()} open>
-                <summary
-                  className={clsx('key', {
-                    isArray: isArray,
-                    isObject: !isArray && isObject,
-                    isIndex: !Number.isNaN(Number(key)),
-                  })}
-                >
-                  {key}:
-                </summary>
-                <JsonItem data={childData} />
-                <summary className='bracket'>{isArray ? ']' : '}'}</summary>
-              </details>
+              <Details
+                key={key}
+                data={childData}
+                isArray={isArray}
+                isObject={isObject}
+                dataKey={key}
+              />
             );
           }
 
@@ -64,7 +51,7 @@ function JsonItem({ data }: Props) {
           else stringRepresentation = childData.toString();
 
           return (
-            <p key={key.toString()}>
+            <p key={key}>
               <span
                 className={clsx('key', {
                   isIndex: !Number.isNaN(Number(key)),
@@ -78,7 +65,9 @@ function JsonItem({ data }: Props) {
         })}
       </div>
     );
-  } else if (dataType === 'string') {
+  }
+
+  if (dataType === 'string') {
     return <p ref={ref}>"{data}"</p>;
   }
 
