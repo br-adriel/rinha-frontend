@@ -9,11 +9,11 @@
   -webkit-text-size-adjust: 100%;
 
   --bg: #fff;
-  --accent-text: #4e9590;
+  --accent-text: #12645b;
   --dark-text: #000;
   --btn-bg: linear-gradient(180deg, #e4e4e4 0%, #f7f7f7 100%);
-  --brackets: #f2cab8;
-  --gray: #bfbfbf;
+  --brackets: #ad634c;
+  --gray: #797676;
   --invalid: #bf0e0e;
 
   --font-title-size: 3rem;
@@ -104,6 +104,7 @@ details .key {
 .bracket {
   color: var(--brackets);
   border: none;
+  font-weight: 700;
 }
 
 .isIndex {
