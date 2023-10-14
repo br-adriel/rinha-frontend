@@ -13,7 +13,8 @@
     "best-effort-json-parser": "^1.0.1",
     "clsx": "^2.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
