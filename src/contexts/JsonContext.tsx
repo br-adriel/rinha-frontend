@@ -11,6 +11,7 @@ import {
 interface JsonContextType {
   file: File | undefined;
   jsonObject: object | null;
+  hasError: boolean;
   loading: boolean;
   setFile: Dispatch<SetStateAction<File | undefined>>;
   setJsonObject: Dispatch<SetStateAction<object | null>>;
@@ -28,12 +29,20 @@ const JsonContextProvider: React.FC<JsonContextProviderProps> = ({
   const [loading, setLoading] = useState(true);
   const [file, setFile] = useState<File | undefined>();
   const [jsonObject, setJsonObject] = useState<object | null>(null);
+  const [hasError, setHasError] = useState(false);
 
   const reader = new FileReader();
   reader.onloadend = () => {
-    const json = JSON.parse(reader.result as string);
-    setJsonObject(json);
-    setLoading(false);
+    try {
+      const json = JSON.parse(reader.result as string);
+      setJsonObject(json);
+      setHasError(false);
+    } catch (e) {
+      setFile(undefined);
+      setHasError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -48,6 +57,7 @@ const JsonContextProvider: React.FC<JsonContextProviderProps> = ({
       value={{
         file,
         jsonObject,
+        hasError,
         loading,
         setFile,
         setJsonObject,

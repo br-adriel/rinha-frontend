@@ -2,12 +2,8 @@ import FileInput from '../../components/FileInput';
 import { useJsonContext } from '../../contexts/JsonContext';
 import style from './Home.module.css';
 
-interface Props {
-  invalid?: boolean;
-}
-
-function Home({ invalid = false }: Props) {
-  const { setFile } = useJsonContext();
+function Home() {
+  const { setFile, hasError } = useJsonContext();
 
   const fileSelect = async (files: FileList | null) => {
     if (files && files.length == 1) {
@@ -23,7 +19,7 @@ function Home({ invalid = false }: Props) {
         Simple JSON Viewer that runs completely on-client. No data exchange
       </h2>
       <FileInput onFileSelected={fileSelect}>Load JSON</FileInput>
-      {invalid && (
+      {hasError && (
         <p className={style.error}>
           Invalid file. Please load a valid JSON file.
         </p>
