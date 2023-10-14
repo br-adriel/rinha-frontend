@@ -2,6 +2,7 @@
   margin: 0 auto;
   max-width: 638px;
   padding: 16px;
+  margin-bottom: 50px;
 }
 
 .titleBar {
@@ -14,6 +15,17 @@
 
 .filename {
   font-size: 2rem;
+  word-break: break-all;
+}
+
+.button {
+  padding: 8px;
+}
+
+.button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
 }
 
 @media screen and (min-width: 654px) {

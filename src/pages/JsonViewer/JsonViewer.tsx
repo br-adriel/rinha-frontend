@@ -1,3 +1,4 @@
+import { BiHome } from 'react-icons/bi';
 import Loading from '../../components/Loading';
 import { useJsonContext } from '../../contexts/JsonContext';
 import style from './JsonViewer.module.css';
@@ -14,7 +15,13 @@ function JsonViewer() {
     <main className={style.main}>
       <div className={style.titleBar}>
         <h1 className={style.filename}>{file?.name}</h1>
-        <button onClick={() => setFile(undefined)}>Home</button>
+        <button
+          onClick={() => setFile(undefined)}
+          title='Home'
+          className={style.button}
+        >
+          <BiHome />
+        </button>
       </div>
 
       <details open>
