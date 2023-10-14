@@ -1,3 +1,23 @@
 .main {
+  margin: 0 auto;
+  max-width: 638px;
   padding: 16px;
+}
+
+.titleBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.filename {
+  font-size: 2rem;
+}
+
+@media screen and (min-width: 654px) {
+  .main {
+    padding: 16px 0;
+  }
 }

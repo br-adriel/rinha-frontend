@@ -1,37 +1,22 @@
-import JsonItem from '../../components/JsonItem';
+import Loading from '../../components/Loading';
 import { useJsonContext } from '../../contexts/JsonContext';
 import style from './JsonViewer.module.css';
+import { lazy } from 'react';
+
+const JsonItem = lazy(() => import('../../components/JsonItem'));
 
 function JsonViewer() {
-  const {
-    jsonObject,
-    loadNextPage,
-    loadPreviousPage,
-    setFile,
-    currentIndex,
-    file,
-  } = useJsonContext();
+  const { file, jsonObject, loading, setFile } = useJsonContext();
   const isArray = Array.isArray(jsonObject);
 
+  if (loading) return <Loading />;
   return (
     <main className={style.main}>
-      <button type='button' onClick={() => setFile(undefined)}>
-        Home
-      </button>
-      <button
-        type='button'
-        onClick={loadPreviousPage}
-        disabled={currentIndex > 0}
-      >
-        Previous
-      </button>
-      <button
-        type='button'
-        onClick={loadNextPage}
-        disabled={!file || currentIndex >= file.size - 1}
-      >
-        Next
-      </button>
+      <div className={style.titleBar}>
+        <h1 className={style.filename}>{file?.name}</h1>
+        <button onClick={() => setFile(undefined)}>Home</button>
+      </div>
+
       <details open>
         <summary className={isArray ? 'isArray' : 'isObject'}></summary>
         <JsonItem data={jsonObject || {}} />
