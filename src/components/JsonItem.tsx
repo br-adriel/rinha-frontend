@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Details from './Details';
 
@@ -6,13 +7,11 @@ interface Props {
   data: any;
 }
 
-function JsonItem({ data }: Props) {
-  const [ref, inView] = useInView();
+const generateContent = (
+  data: any,
+  ref: (node: Element | null | undefined) => void
+) => {
   const dataType = typeof data;
-
-  if (!inView) {
-    return <div ref={ref}></div>;
-  }
 
   if (data === null) return <p ref={ref}>null</p>;
 
@@ -72,6 +71,21 @@ function JsonItem({ data }: Props) {
   }
 
   return <span ref={ref}>{data}</span>;
+};
+
+function JsonItem({ data }: Props) {
+  const [ref, inView] = useInView();
+
+  const generatedComponent = useMemo(
+    () => generateContent(data, ref),
+    [data, ref]
+  );
+
+  if (!inView) {
+    return <div ref={ref}></div>;
+  }
+
+  return generatedComponent;
 }
 
 export default JsonItem;
