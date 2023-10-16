@@ -1,24 +1,45 @@
 import clsx from 'clsx';
-import { useMemo } from 'react';
+import { lazy, useRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import Details from './Details';
+const Details = lazy(() => import('./Details'));
 
 interface Props {
   data: any;
 }
 
-const generateContent = (
-  data: any,
-  ref: (node: Element | null | undefined) => void
-) => {
+function JsonItem({ data }: Props) {
+  const [ref, inView] = useInView();
+  const [endRef, reachedEnd] = useInView();
+  const keyIndex = useRef([0, 0, 0]);
   const dataType = typeof data;
+
+  useEffect(() => {
+    if (dataType === 'object') {
+      keyIndex.current = [0, 20, Object.keys(data).length];
+    }
+  }, []);
+
+  if (reachedEnd) {
+    console.log(keyIndex);
+    if (keyIndex.current[1] + 20 >= keyIndex.current[2]) {
+      keyIndex.current[1] = keyIndex.current[2];
+    } else {
+      keyIndex.current[1] = keyIndex.current[1] + 20;
+    }
+  }
+
+  if (!inView) {
+    return <div ref={ref}></div>;
+  }
 
   if (data === null) return <p ref={ref}>null</p>;
 
   if (data === undefined) return <p ref={ref}>undefined</p>;
 
   if (dataType === 'object') {
-    const keys = Object.keys(data);
+    const keys = Object.keys(data).filter(
+      (_, i) => i >= keyIndex.current[0] && i < keyIndex.current[1]
+    );
 
     return (
       <div ref={ref}>
@@ -62,6 +83,8 @@ const generateContent = (
             </p>
           );
         })}
+
+        {keyIndex.current[2] > 0 && <div ref={endRef}></div>}
       </div>
     );
   }
@@ -71,21 +94,6 @@ const generateContent = (
   }
 
   return <span ref={ref}>{data}</span>;
-};
-
-function JsonItem({ data }: Props) {
-  const [ref, inView] = useInView();
-
-  const generatedComponent = useMemo(
-    () => generateContent(data, ref),
-    [data, ref]
-  );
-
-  if (!inView) {
-    return <div ref={ref}></div>;
-  }
-
-  return generatedComponent;
 }
 
 export default JsonItem;
